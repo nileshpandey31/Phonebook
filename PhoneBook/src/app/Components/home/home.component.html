@@ -1,0 +1,132 @@
+<div id="myModal" class="modal fade" [ngClass]="{'show':showModal}">
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Add New Contact</h4>
+          <button type="button" class="close" (click)="showModal=false" data-dismiss="modal">&times;</button>
+      
+        </div>
+        <div class="modal-body">
+
+            <!-- using template driven approach to pass new contact detail -->
+
+         <form action="" #newcontact = "ngForm">   
+             Enter First Name: <input type="text" name="fn" ngModel><br><br>
+             Enter Last Name: <input type="text" name="ln" ngModel><br><br>
+             Enter Contact:<input type="number" name="cn" ngModel>
+         </form>
+        </div>
+        <div class="modal-footer">
+          <button  type="button" class="btn btn-danger"  data-dismiss="modals" (click)="addcontact(newcontact.value)">ADD</button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+<!-- Edit cntact model -->
+
+<div id="myeditModal" class="modal fade" [ngClass]="{'show':showeditModal}">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title">Edit Contact</h4>
+        <button type="button" class="close" (click)="showeditModal=false" data-dismiss="modal">&times;</button>
+    
+      </div>
+      <div class="modal-body">
+
+        <!-- using temp-driven form to pass updated contact value
+        issue:need to edit all three pages to work properly
+        need to be fix!! -->
+
+       <form action="" #editcontact = "ngForm">
+           Enter First Name: <input type="text" name="fn" ngModel value={{ufname}}><br><br>
+           Enter Last Name: <input type="text" name="ln" ngModel value={{ulname}}><br><br>
+           Enter Contact:<input type="number" name="cn" ngModel value={{unum}}>
+       </form>
+      </div>
+      <div class="modal-footer">
+        <button  type="button" class="btn btn-danger"  data-dismiss="modals" (click)="updatecontact(editcontact.value)">Update</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- edit contact model end -->
+
+<div class=" container ">
+    <div class="contitle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+          </svg>
+         Phone Book App
+         
+    </div>
+   
+    <div class="subheadblock">
+        <div class="subhead">Contacts</div> 
+        <!-- to display modal -->
+        <button class="btn btn-primary" style="float: right;" data-toggle="modal" data-target="#myModal" (click)="showModal=true" > 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+              </svg>
+              ADD Contact
+        </button>
+    </div>
+   
+    <!-- using combination of focus n blur for search filter
+    this feature can be improved.
+    used 2way binding -->
+    
+    <div class="searchinput">
+        <input type="search" placeholder="Search for contact by name" [(ngModel)]="scontact" (blur)="afsearch()" (focus)="search()">&nbsp;
+       
+        <button class="btn btn-secondary" (click)=ascend()><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+        </svg></button>
+        &nbsp;
+        <button  class="btn btn-secondary" (click)=descend()>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+          </svg>
+        </button>
+    </div>
+    <div class="contactbody">
+        <ol >
+            <!-- list of all contacts -->
+
+            <li *ngFor="let item of allContacts">
+                <div class="contact">
+                    <div class="name">{{item.fname}} &nbsp; {{item.lname}}</div>
+                    <div class="edit"><Button class="btn btn-secondary" data-toggle="modal" data-target="#myeditModal" (click)="editmodal(item)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                      </svg>Edit</Button>
+                    </div>
+
+                      <!-- object is sent as a parameter to dlt that object -->
+
+                    <div class="delete"  (click)="delete(item)"><Button  class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                      </svg></Button>
+                    </div>
+
+                    <br>
+                    <div class="contactnum">{{item.num}}</div>
+                </div>
+            </li>
+           
+        </ol>
+       
+    </div>
+   
+    
+   
+</div>

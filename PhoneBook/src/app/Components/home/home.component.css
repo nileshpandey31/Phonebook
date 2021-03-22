@@ -1,0 +1,76 @@
+.container
+{
+    border-style: solid;
+    border-color: black;
+    text-align:center;
+    display: block;
+    width: 700px;
+    margin-top: 20px;
+    background-color: rgb(243, 242, 242);
+ 
+}
+.contitle
+{
+    font-weight: 700;
+}
+.subhead
+{
+    font-weight: 600;
+    float: left;
+    padding-left: 40px;
+}
+.subheadblock
+{
+    margin-top: 80px;
+}
+.searchinput input[type="search"] 
+{
+    margin-top: 50px;
+    width: 300px;
+    
+}
+
+.name
+{
+    float: left;
+}
+.contactnum
+{
+    float: left;
+}
+.delete
+{
+    float:right;
+}
+.edit
+{
+    float:right;
+}
+.contactbody ol
+{
+    list-style: none;
+}
+.contactbody li
+{
+    padding: 25px;
+  border-style: solid;
+  border-color: gray;
+    margin-top: 10px;
+}
+.edit button{
+    margin-left: 10px;
+}
+.delete button{
+    margin-left: 10px;
+}
+
+.show
+{
+    display: block;
+}
+.hide
+{
+    display:none;
+}
+
+
